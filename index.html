@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffeaf0">
+  <title>Приглашение на свидание 💕</title>
+
+  <!-- Google Fonts (если не загрузятся — сработает system-font fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Comfortaa:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==================== БАЗА ==================== */
+    :root {
+      --bg-1: #ffeaf0;
+      --bg-2: #fff5ec;
+      --bg-3: #ffe0e8;
+      --pink: #ff9eb5;
+      --pink-deep: #ff7a9c;
+      --coral: #ff8a80;
+      --text: #5a3a44;
+      --text-soft: #8a6470;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(255, 122, 156, 0.18);
+      --shadow-strong: 0 14px 40px rgba(255, 122, 156, 0.30);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: var(--text);
+      background: linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      min-height: 100dvh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==================== ФОНОВЫЕ ПУЗЫРИ ==================== */
+    .bg-bubbles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,158,181,0.22));
+      box-shadow: inset 0 0 24px rgba(255,255,255,0.7);
+      animation: bubbleFloat 14s infinite ease-in-out;
+      opacity: 0.55;
+      filter: blur(1px);
+    }
+    @keyframes bubbleFloat {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50%      { transform: translateY(-30px) translateX(15px); }
+    }
+
+    /* ==================== СЕКЦИИ ==================== */
+    .section {
+      display: none;
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      margin: 0 auto;
+      padding:
+        calc(24px + env(safe-area-inset-top))
+        calc(16px + env(safe-area-inset-right))
+        calc(40px + env(safe-area-inset-bottom))
+        calc(16px + env(safe-area-inset-left));
+    }
+    .section.active {
+      display: block;
+      animation: fadeSlide 0.55s ease both;
+    }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ИНТРО */
+    .section.intro {
+      min-height: 100vh;
+      min-height: 100dvh;
+      text-align: center;
+    }
+    .section.intro.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+    }
+    .intro-caption {
+      margin: 0;
+      font-family: 'Comfortaa', 'Nunito', sans-serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      font-weight: 700;
+      opacity: 0.8;
+    }
+    .intro-bubble {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 88px;
+      background: radial-gradient(circle at 30% 25%, #ffffff, #ffe4ec 70%, #ffd3df);
+      box-shadow: var(--shadow-strong), inset 0 -10px 30px rgba(255, 158, 181, 0.25);
+      border: 4px solid rgba(255,255,255,0.85);
+      animation: floatSlow 3.2s ease-in-out infinite;
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-14px); }
+    }
+    .intro-title {
+      font-family: 'Comfortaa', 'Nunito', sans-serif;
+      font-size: 26px;
+      line-height: 1.25;
+      margin: 0;
+      max-width: 320px;
+      color: var(--text);
+    }
+
+    /* ==================== КАРТОЧКИ ==================== */
+    .card {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 32px;
+      padding: 28px 22px;
+      box-shadow: var(--shadow);
+      border: 2px solid rgba(255,255,255,0.75);
+      animation: fadeSlide 0.55s ease both;
+    }
+    .text-center { text-align: center; }
+
+    .screen-title {
+      font-family: 'Comfortaa', 'Nunito', sans-serif;
+      font-size: 23px;
+      line-height: 1.3;
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+    .soft-text {
+      font-size: 15.5px;
+      color: var(--text-soft);
+      margin: 0 0 20px;
+      line-height: 1.55;
+    }
+
+    /* ==================== КНОПКИ ==================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: none;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      user-select: none;
+      -webkit-user-select: none;
+      margin-top: 10px;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff9eb5, #ff7a9c);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(255, 122, 156, 0.35);
+    }
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text);
+      border: 2px solid rgba(255, 158, 181, 0.5);
+      box-shadow: 0 6px 18px rgba(255, 122, 156, 0.12);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-soft);
+      border: 2px dashed rgba(255, 158, 181, 0.65);
+      font-weight: 700;
+    }
+    .btn-no {
+      background: #ffffff;
+      color: var(--text-soft);
+      border: 2px solid rgba(255, 158, 181, 0.4);
+      box-shadow: 0 6px 18px rgba(255, 122, 156, 0.10);
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
+    }
+
+    /* Пульсирующая кнопка «Да» / «Открыть» */
+    .btn-pulse {
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 8px 24px rgba(255, 122, 156, 0.35);
+      }
+      50% {
+        box-shadow: 0 8px 32px rgba(255, 122, 156, 0.55),
+                    0 0 0 10px rgba(255, 158, 181, 0.14);
+      }
+    }
+
+    /* ==================== БЛОКИ ИНФО ==================== */
+    .info-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,228,236,0.75));
+      border: 1.5px solid rgba(255,255,255,0.9);
+      box-shadow: 0 4px 14px rgba(255, 122, 156, 0.10);
+    }
+    .info-emoji {
+      font-size: 26px;
+      flex-shrink: 0;
+      width: 38px;
+      text-align: center;
+    }
+    .info-label {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--text-soft);
+      opacity: 0.75;
+    }
+    .info-value {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    /* ==================== ВОПРОС ==================== */
+    .question-emoji {
+      font-size: 64px;
+      margin-bottom: 6px;
+      animation: floatSlow 2.8s ease-in-out infinite;
+    }
+    .answer-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    /* ==================== ОПРОС ==================== */
+    .known-msg {
+      display: none;
+      background: linear-gradient(135deg, #fff0f5, #ffe0e8);
+      color: var(--pink-deep);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 16px;
+      animation: fadeSlide 0.5s ease both;
+      border: 1.5px dashed rgba(255, 122, 156, 0.4);
+    }
+
+    .cuisine-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0 8px;
+    }
+    .cuisine-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 18px 10px;
+      min-height: 112px;
+      border-radius: 22px;
+      border: 2px solid rgba(255,255,255,0.9);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,235,242,0.7));
+      box-shadow: 0 6px 20px rgba(255, 122, 156, 0.12);
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--text);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .cuisine-card:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 14px rgba(255, 122, 156, 0.20);
+    }
+    .cuisine-emoji { font-size: 38px; line-height: 1; }
+    .cuisine-label {
+      font-weight: 800;
+      font-size: 14.5px;
+      text-align: center;
+    }
+
+    /* ==================== РЕСТОРАН ==================== */
+    .restaurant-card {
+      margin-top: 8px;
+      animation: fadeSlide 0.5s ease both;
+    }
+    .restaurant-emoji {
+      font-size: 48px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .restaurant-name {
+      font-family: 'Comfortaa', 'Nunito', sans-serif;
+      font-size: 20px;
+      margin: 0 0 6px;
+      text-align: center;
+      color: var(--text);
+      min-height: 30px;
+    }
+    .restaurant-name.typing {
+      color: var(--text-soft);
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .restaurant-name.typing::after {
+      content: '';
+      display: inline-block;
+      width: 18px;
+      text-align: left;
+      animation: dots 1.4s steps(4) infinite;
+    }
+    @keyframes dots {
+      0%, 20%   { content: ''; }
+      40%       { content: '.'; }
+      60%       { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+    .restaurant-desc {
+      text-align: center;
+      color: var(--text-soft);
+      font-size: 14.5px;
+      margin: 0 0 12px;
+    }
+    .restaurant-address {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(255,240,245,0.9);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 14px;
+      text-align: center;
+    }
+
+    .map-wrap {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 0 0 12px;
+      background: #f5f0f0;
+      box-shadow: 0 6px 20px rgba(255, 122, 156, 0.15);
+    }
+    .map-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .map-stub {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-soft);
+      font-size: 14px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* ==================== ФИНАЛ ==================== */
+    .final-heart {
+      font-size: 68px;
+      animation: heartbeat 1.6s ease-in-out infinite;
+      margin-bottom: 8px;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      20%      { transform: scale(1.12); }
+      40%      { transform: scale(0.98); }
+      60%      { transform: scale(1.06); }
+    }
+    .final-details {
+      background: linear-gradient(135deg, #fff0f5, #fff5ec);
+      border-radius: 20px;
+      padding: 16px;
+      margin: 14px 0 20px;
+      border: 1.5px solid rgba(255,255,255,0.9);
+    }
+    .final-line {
+      margin: 4px 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .signature {
+      margin: 18px 0 0;
+      font-family: 'Comfortaa', 'Nunito', sans-serif;
+      font-size: 17px;
+      color: var(--pink-deep);
+      font-weight: 700;
+    }
+
+    /* ==================== АДАПТИВ ==================== */
+    @media (min-width: 420px) {
+      .intro-bubble { width: 220px; height: 220px; font-size: 104px; }
+      .intro-title { font-size: 30px; }
+      .screen-title { font-size: 25px; }
+    }
+    @media (max-width: 340px) {
+      .cuisine-grid { grid-template-columns: 1fr; }
+      .intro-title { font-size: 22px; }
+      .screen-title { font-size: 20px; }
+    }
+
+    /* ==================== PREFERS-REDUCED-MOTION ==================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ФОНОВЫЕ ПУЗЫРИ -->
+  <div class="bg-bubbles" aria-hidden="true">
+    <div class="bubble" style="width: 130px; height: 130px; left: 8%;  top: 15%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 80px;  height: 80px;  left: 75%; top: 55%; animation-delay: 2s;"></div>
+    <div class="bubble" style="width: 170px; height: 170px; left: 55%; top: 8%;  animation-delay: 4s;"></div>
+    <div class="bubble" style="width: 60px;  height: 60px;  left: 18%; top: 78%; animation-delay: 1s;"></div>
+    <div class="bubble" style="width: 100px; height: 100px; left: 85%; top: 25%; animation-delay: 3s;"></div>
+    <div class="bubble" style="width: 90px;  height: 90px;  left: 40%; top: 88%; animation-delay: 5s;"></div>
+  </div>
+
+  <!-- ========== ЭКРАН 1: ИНТРО ========== -->
+  <section class="section intro active" id="screen-intro">
+    <p class="intro-caption">5 лет вместе ❤️</p>
+    <div class="intro-bubble" aria-hidden="true">💌</div>
+    <h1 class="intro-title">У меня к тебе вопрос…</h1>
+    <!-- Кнопка перехода на основной экран -->
+    <button class="btn btn-primary btn-pulse" id="btn-open" style="max-width: 300px;">
+      Открыть приглашение
+    </button>
+  </section>
+
+  <!-- ========== ЭКРАН 2: ПРИГЛАШЕНИЕ ========== -->
+  <section class="section" id="screen-main">
+    <div class="card">
+      <h2 class="screen-title">5 лет вместе —<br>и это только начало</h2>
+      <p class="soft-text">
+        Любимая, приглашаю тебя на свидание в честь нашей годовщины.
+        Хочу провести этот особенный вечер только с тобой 💕
+      </p>
+
+      <div class="info-block">
+        <div class="info-item">
+          <span class="info-emoji">📅</span>
+          <div>
+            <div class="info-label">Когда</div>
+            <!-- ЗАМЕНИТЬ ДАТУ И ВРЕМЯ -->
+            <div class="info-value">19 октября 2026, 18:30</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="info-emoji">📍</span>
+          <div>
+            <div class="info-label">Где</div>
+            <!-- ЗАМЕНИТЬ ГОРОД / МЕСТО -->
+            <div class="info-value">Тюмень — место выберем вместе</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ссылка-заглушка на карту города -->
+      <a class="btn btn-secondary"
+         href="https://yandex.ru/maps/55/tyumen/"
+         target="_blank" rel="noopener">
+        Посмотреть на карте
+      </a>
+
+      <button class="btn btn-primary" id="btn-to-question">Дальше 💕</button>
+    </div>
+  </section>
+
+  <!-- ========== ЭКРАН 3: ВОПРОС ========== -->
+  <section class="section" id="screen-question">
+    <div class="card text-center">
+      <div class="question-emoji" aria-hidden="true">💐</div>
+      <h2 class="screen-title">Ты пойдёшь со мной<br>на свидание?</h2>
+      <div class="answer-buttons">
+        <button class="btn btn-primary btn-pulse" id="btn-yes">Да 💖</button>
+        <button class="btn btn-no" id="btn-no">Нет</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ЭКРАН 4: МИНИ-ОПРОС ========== -->
+  <section class="section" id="screen-poll">
+    <div class="card">
+      <div class="known-msg" id="known-msg">Я так и знал(а) 😊</div>
+      <h2 class="screen-title">Отлично! Осталось выбрать, куда пойдём 🍽️</h2>
+
+      <!-- Сетка кухонь (генерируется JS) -->
+      <div class="cuisine-grid" id="cuisine-grid"></div>
+
+      <!-- Карточка ресторана (скрыта до выбора) -->
+      <div class="restaurant-card" id="restaurant-card" style="display:none;">
+        <div class="restaurant-emoji" id="r-emoji">🍽️</div>
+        <h3 class="restaurant-name" id="r-name"></h3>
+        <p class="restaurant-desc" id="r-desc"></p>
+        <p class="restaurant-address" id="r-address-line">📍 <span id="r-address"></span></p>
+
+        <div class="map-wrap" id="map-wrap"></div>
+
+        <a class="btn btn-secondary" id="r-link" target="_blank" rel="noopener" style="display:none;"></a>
+
+        <button class="btn btn-outline" id="btn-reset">← Выбрать другую кухню</button>
+        <button class="btn btn-primary" id="btn-confirm">Всё верно, я согласна ❤️</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ЭКРАН 5: ФИНАЛ ========== -->
+  <section class="section" id="screen-final">
+    <div class="card text-center">
+      <div class="final-heart" aria-hidden="true">💗</div>
+      <h2 class="screen-title">Договорились!</h2>
+
+      <div class="final-details">
+        <!-- ЗАМЕНИТЬ ДАТУ И ВРЕМЯ -->
+        <p class="final-line">📅 19 октября 2026 в 18:30</p>
+        <p class="final-line" id="final-restaurant">🍽️</p>
+      </div>
+
+      <p class="soft-text">
+        Спасибо, что ты рядом все эти 5 лет. Ты — моё самое любимое чудо.
+        Люблю тебя бесконечно и очень жду наше свидание 💕
+      </p>
+
+      <!-- ЗАМЕНИТЬ ССЫЛКУ НА TELEGRAM -->
+      <a class="btn btn-primary" href="https://t.me/nikolaimarkin0" target="_blank" rel="noopener">
+        Написать мне 💌
+      </a>
+
+      <!-- ЗАМЕНИТЬ ПОДПИСЬ -->
+      <p class="signature">С любовью, Кисюн!</p>
+    </div>
+  </section>
+
+  <script>
+    /* ================================================================
+       ДАННЫЕ РЕСТОРАНОВ — МЕНЯЙ ЗДЕСЬ
+       ================================================================ */
+    const restaurants = {
+      asian: {
+        emoji: "🍜",
+        label: "Азиатская",
+        name: "Umi Asian casual food",
+        address: "Ленина 57, Тюмень",
+        description: "Азиатская кухня, атмосферный ресторан",
+        link: "https://2gis.ru/tyumen/geo/70000001064043198",
+        linkLabel: "Открыть в 2ГИС"
+      },
+      georgian: {
+        emoji: "🥟",
+        label: "Грузинская",
+        name: "Кацо",
+        address: "Республики 143 к2, Тюмень",
+        description: "Грузинская кухня, атмосфера Тбилиси",
+        link: "https://2gis.ru/tyumen/geo/1830115630097336",
+        linkLabel: "Открыть в 2ГИС"
+      },
+      european: {
+        emoji: "🥐",
+        label: "Европейская",
+        name: "Британия",
+        address: "Пржевальского 35 к4/4, Тюмень",
+        description: "Европейская кухня, окно в Европу в Тюмени",
+        link: "https://2gis.ru/tyumen/geo/70000001064903875",
+        linkLabel: "Открыть в 2ГИС"
+      },
+      italian: {
+        emoji: "🍝",
+        label: "Итальянская",
+        name: "Сорренто",
+        address: "Республики 142, Тюмень",
+        description: "Итальянская кухня, премия «Лучший ресторан РФ 2026»",
+        link: "https://2gis.ru/tyumen/geo/70000001106072312",
+        linkLabel: "Открыть в 2ГИС"
+      }
+    };
+
+    /* Порядок карточек кухонь на экране */
+    const cuisineOrder = ["italian", "georgian", "european", "asian"];
+
+    /* ================================================================
+       НАВИГАЦИЯ МЕЖДУ ЭКРАНАМИ
+       ================================================================ */
+    function showScreen(id) {
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+      const target = document.getElementById("screen-" + id);
+      if (!target) return;
+      target.classList.add("active");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    }
+
+    /* ================================================================
+       КНОПКИ ПЕРЕХОДОВ
+       ================================================================ */
+    document.getElementById("btn-open").addEventListener("click", () => showScreen("main"));
+    document.getElementById("btn-to-question").addEventListener("click", () => showScreen("question"));
+    document.getElementById("btn-yes").addEventListener("click", () => showScreen("poll"));
+
+    /* ================================================================
+       ИГРИВАЯ КНОПКА «НЕТ»
+       ================================================================ */
+    const btnNo = document.getElementById("btn-no");
+    const noTexts = ["Точно нет?", "Подумай ещё…", "А если я добавлю цветы?", "Ну пожалуйста…"];
+    let noCount = 0;
+
+    btnNo.addEventListener("click", () => {
+      // Если уже прошли все стадии — просто ведём к опросу
+      if (noCount >= 5) {
+        showScreen("poll");
+        return;
+      }
+
+      noCount++;
+
+      if (noCount <= 4) {
+        // Меняем текст и слегка уменьшаем кнопку
+        btnNo.textContent = noTexts[noCount - 1];
+        const scale = Math.max(1 - noCount * 0.06, 0.72);
+        btnNo.style.transform = `scale(${scale})`;
+      } else {
+        // 5-е нажатие — финальный текст + переход к опросу
+        btnNo.textContent = "Ладно, уговорил(а) 💐";
+        btnNo.style.transform = "scale(0.72)";
+        document.getElementById("known-msg").style.display = "block";
+        setTimeout(() => showScreen("poll"), 650);
+      }
+    });
+
+    /* ================================================================
+       ГЕНЕРАЦИЯ КАРТОЧЕК КУХОНЬ
+       ================================================================ */
+    const cuisineGrid = document.getElementById("cuisine-grid");
+
+    cuisineOrder.forEach(key => {
+      const r = restaurants[key];
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cuisine-card";
+      btn.setAttribute("aria-label", `Выбрать ${r.label} кухню`);
+      btn.innerHTML = `
+        <span class="cuisine-emoji" aria-hidden="true">${r.emoji}</span>
+        <span class="cuisine-label">${r.label}</span>
+      `;
+      btn.addEventListener("click", () => selectCuisine(key));
+      cuisineGrid.appendChild(btn);
+    });
+
+    /* ================================================================
+       ВЫБОР КУХНИ → КАРТОЧКА РЕСТОРАНА
+       ================================================================ */
+    let currentRestaurantKey = null;
+
+    function selectCuisine(key) {
+      currentRestaurantKey = key;
+      const r = restaurants[key];
+
+      // Прячем сетку кухонь, показываем карточку ресторана
+      cuisineGrid.style.display = "none";
+      const card = document.getElementById("restaurant-card");
+      card.style.display = "block";
+
+      // Сброс предыдущего содержимого
+      const nameEl   = document.getElementById("r-name");
+      const descEl   = document.getElementById("r-desc");
+      const addrEl   = document.getElementById("r-address");
+      const emojiEl  = document.getElementById("r-emoji");
+      const linkEl   = document.getElementById("r-link");
+      const mapWrap  = document.getElementById("map-wrap");
+
+      nameEl.textContent = "";
+      nameEl.classList.add("typing");
+      nameEl.textContent = "Подбираю местечко";
+      descEl.textContent = "";
+      addrEl.textContent = "";
+      emojiEl.textContent = r.emoji;
+      linkEl.style.display = "none";
+      mapWrap.innerHTML = "";
+
+      // Небольшая «интрига» — печатающий эффект
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const delay = reduce ? 0 : 900;
+
+      setTimeout(() => {
+        nameEl.classList.remove("typing");
+        nameEl.textContent = r.name;
+        descEl.textContent = r.description;
+        addrEl.textContent = r.address || "Адрес уточним ближе к дате ❤️";
+
+        // Карта Яндекс.Карт (без API-ключей)
+        if (r.address) {
+          const iframe = document.createElement("iframe");
+          iframe.src = "https://yandex.ru/map-widget/v1/?text=" + encodeURIComponent(r.address);
+          iframe.loading = "lazy";
+          iframe.setAttribute("allowfullscreen", "true");
+          iframe.setAttribute("title", "Карта: " + r.address);
+          mapWrap.appendChild(iframe);
+        } else {
+          mapWrap.innerHTML = '<div class="map-stub">Адрес уточним ближе к дате ❤️</div>';
+        }
+
+        // Кнопка 2ГИС
+        linkEl.href = r.link;
+        linkEl.textContent = r.linkLabel;
+        linkEl.style.display = "inline-flex";
+
+        // Прописываем название ресторана в финальный блок
+        document.getElementById("final-restaurant").textContent = "🍽️ " + r.name;
+      }, delay);
+    }
+
+    /* ================================================================
+       «ВЫБРАТЬ ДРУГУЮ КУХНЮ» И «ВСЁ ВЕРНО»
+       ================================================================ */
+    document.getElementById("btn-reset").addEventListener("click", () => {
+      document.getElementById("restaurant-card").style.display = "none";
+      cuisineGrid.style.display = "grid";
+      cuisineGrid.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    document.getElementById("btn-confirm").addEventListener("click", () => {
+      showScreen("final");
+    });
+  </script>
+</body>
+  </html>
