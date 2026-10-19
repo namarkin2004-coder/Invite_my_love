@@ -386,7 +386,8 @@
       margin: 14px 0 20px;
       border: 1.5px solid rgba(255,255,255,0.9);
     }
-    .final-line { margin: 4px 0; font-size: 16px; font-weight: 800; color: var(--text); }
+    .final-line { margin: 6px 0; font-size: 16px; font-weight: 800; color: var(--text); }
+    .final-address-line { font-size: 14px; font-weight: 700; color: var(--text-soft); margin-top: 4px; }
     .signature { margin: 18px 0 0; font-family: 'Comfortaa', 'Nunito', sans-serif; font-size: 17px; color: var(--pink-deep); font-weight: 700; }
 
     /* ==================== АДАПТИВ ==================== */
@@ -458,10 +459,8 @@
         </div>
       </div>
 
-      <!-- НОВАЯ КНОПКА: 5 причин почему я тебя люблю -->
       <button class="btn btn-secondary" id="btn-secret">5 причин, почему я тебя люблю 💌</button>
 
-      <!-- Скрытый блок с причинами -->
       <div class="secret-block" id="secret-block">
         <div class="secret-item"><span>1.</span> За твою улыбку, которая греет больше, чем самая горячая звезда во вселенной</div>
         <div class="secret-item"><span>2.</span> За то, как ты любишь меня и дорожишь нашими отношениями</div>
@@ -491,7 +490,6 @@
     <div class="card">
       <div class="known-msg" id="known-msg">Я так и знал 😊</div>
       
-      <!-- СЮДА БУДЕТ ПОДСТАВЛЯТЬСЯ ФАКТ О РЕСТОРАНЕ -->
       <h2 class="screen-title" id="poll-title">Отлично! Осталось выбрать, куда пойдём 🍽️</h2>
 
       <div class="cuisine-grid" id="cuisine-grid"></div>
@@ -514,10 +512,17 @@
     <div class="card text-center">
       <div class="final-heart" aria-hidden="true">💗</div>
       <h2 class="screen-title">Договорились!</h2>
+      
+      <!-- ОБНОВЛЕННЫЙ БЛОК С ИТОГАМИ И КАРТОЙ -->
       <div class="final-details">
         <p class="final-line">📅 19 октября 2026 в 18:30</p>
-        <p class="final-line" id="final-restaurant">🍽️</p>
+        <p class="final-line" id="final-restaurant" style="color: var(--pink-deep);">🍽️ Название ресторана</p>
+        <p class="final-address-line" id="final-address">📍 Адрес ресторана</p>
+        
+        <!-- Сюда будет вставляться карта -->
+        <div class="map-wrap" id="final-map-wrap" style="margin-top: 16px; margin-bottom: 0;"></div>
       </div>
+
       <p class="soft-text">
         Спасибо за то, что ты рядом все эти 5 лет. Ты мой любимый котёночек 💕!
         Люблю тебя безумно и очень жду нашей встречи, готовься получать хорошее настроение! 💕
@@ -529,7 +534,7 @@
 
   <script>
     /* ================================================================
-       ДАННЫЕ РЕСТОРАНОВ — здесь добавлено поле "fact"
+       ДАННЫЕ РЕСТОРАНОВ
        ================================================================ */
     const restaurants = {
       asian: {
@@ -662,7 +667,7 @@
       const card = document.getElementById("restaurant-card");
       card.style.display = "block";
 
-      const titleEl  = document.getElementById("poll-title"); // Сюда пишем факт
+      const titleEl  = document.getElementById("poll-title");
       const nameEl   = document.getElementById("r-name");
       const descEl   = document.getElementById("r-desc");
       const addrEl   = document.getElementById("r-address");
@@ -670,7 +675,6 @@
       const linkEl   = document.getElementById("r-link");
       const mapWrap  = document.getElementById("map-wrap");
 
-      // Меняем заголовок на факт о ресторане
       titleEl.textContent = r.fact;
 
       nameEl.textContent = "";
@@ -705,25 +709,43 @@
         linkEl.href = r.link;
         linkEl.textContent = r.linkLabel;
         linkEl.style.display = "inline-flex";
-
-        document.getElementById("final-restaurant").textContent = "🍽️ " + r.name;
       }, delay);
     }
 
     /* ================================================================
-       СБРОС И ПОДТВЕРЖДЕНИЕ
+       СБРОС И ПОДТВЕРЖДЕНИЕ (ФИНАЛ)
        ================================================================ */
     document.getElementById("btn-reset").addEventListener("click", () => {
       document.getElementById("restaurant-card").style.display = "none";
       cuisineGrid.style.display = "grid";
-      
-      // Возвращаем исходный заголовок
       document.getElementById("poll-title").textContent = "Отлично! Осталось выбрать, куда пойдём 🍽️";
-      
       cuisineGrid.scrollIntoView({ behavior: "smooth", block: "center" });
     });
 
     document.getElementById("btn-confirm").addEventListener("click", () => {
+      // Заполняем финальную карточку данными выбранного ресторана
+      if (currentRestaurantKey) {
+        const r = restaurants[currentRestaurantKey];
+        
+        // Название и адрес
+        document.getElementById("final-restaurant").textContent = "🍽️ " + r.name;
+        document.getElementById("final-address").textContent = "📍 " + r.address;
+
+        // Генерируем карту для финального экрана
+        const finalMapWrap = document.getElementById("final-map-wrap");
+        finalMapWrap.innerHTML = ""; 
+        if (r.address) {
+          const iframe = document.createElement("iframe");
+          iframe.src = "https://yandex.ru/map-widget/v1/?text=" + encodeURIComponent(r.address);
+          iframe.loading = "lazy";
+          iframe.setAttribute("allowfullscreen", "true");
+          iframe.setAttribute("title", "Карта: " + r.address);
+          finalMapWrap.appendChild(iframe);
+        } else {
+          finalMapWrap.innerHTML = '<div class="map-stub">Адрес уточним ближе к дате ❤️</div>';
+        }
+      }
+      
       showScreen("final");
     });
   </script>
